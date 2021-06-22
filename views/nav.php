@@ -32,7 +32,7 @@
                         <span class="nav__name">Dashboard</span>
                     </a>
 
-                    <a href="<?php echo constant('URL');?>pagina3" class="nav__link">
+                    <a href="<?php echo constant('URL');?>consulta" class="nav__link">
                         <i class='bx bx-medal nav__icon'></i>
                         <span class="nav__name">Data</span>
                     </a>
