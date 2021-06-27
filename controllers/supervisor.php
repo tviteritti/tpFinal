@@ -91,9 +91,13 @@ class Supervisor extends Controller{
        $fee_e = $_POST['fee_e'];
        $fee_r = $_POST['fee_r'];
 
+       $total_e = $kilometros_e + $combustible_e + $etd_e + $eta_e + $viaticos_e + $peajes_pesajes_e + $extra_e + $hazard_e + $reefer_e + $fee_e;
+
+       $total_r=$kilometros_r + $combustible_r + $etd_r + $eta_r + $viaticos_r + $peajes_pesajes_r + $extra_r + $hazard_r + $reefer_r + $fee_r;
+
        $message = "";
     
-       if($this->model->insertCosteo(['kilometros_e' => $kilometros_e, 'kilometros_r' => $kilometros_r, 'combustible_e' => $combustible_e, 'combustible_r' => $combustible_r, 'etd_e' => $etd_e, 'etd_r' => $etd_r, 'eta_e' => $eta_e, 'eta_r' => $eta_r,'viaticos_e' => $viaticos_e, 'viaticos_r' => $viaticos_r, 'peajes_pesajes_e' => $peajes_pesajes_e, 'peajes_pesajes_r' => $peajes_pesajes_r, 'extra_e' => $extra_e, 'extra_r' => $extra_r, 'hazard_e' => $hazard_e, 'hazard_r' => $hazard_r, 'reefer_e' => $reefer_e, 'reefer_r' => $reefer_r, 'fee_e' => $fee_e, 'fee_r' => $fee_r])){
+       if($this->model->insertCosteo(['kilometros_e' => $kilometros_e, 'kilometros_r' => $kilometros_r, 'combustible_e' => $combustible_e, 'combustible_r' => $combustible_r, 'etd_e' => $etd_e, 'etd_r' => $etd_r, 'eta_e' => $eta_e, 'eta_r' => $eta_r,'viaticos_e' => $viaticos_e, 'viaticos_r' => $viaticos_r, 'peajes_pesajes_e' => $peajes_pesajes_e, 'peajes_pesajes_r' => $peajes_pesajes_r, 'extra_e' => $extra_e, 'extra_r' => $extra_r, 'hazard_e' => $hazard_e, 'hazard_r' => $hazard_r, 'reefer_e' => $reefer_e, 'reefer_r' => $reefer_r, 'fee_e' => $fee_e, 'fee_r' => $fee_r,'total_e'=> $total_e, 'total_r'=> $total_r])){
             $message = "registro exitoso";
        }else{
             $message = "ya existe";
