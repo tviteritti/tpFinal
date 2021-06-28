@@ -12,12 +12,18 @@ class Pagina2 extends Controller{
     }
 
     function pruebaModel(){
-       $user = $_POST['user'];
+       $dni = $_POST['dni'];
+       $nombre = $_POST['nombre'];
+       $apellido = $_POST['apellido'];
+       $fecha_nac = $_POST['fecha_nac'];
+       $usuario = $_POST['usuario'];
        $password = $_POST['password'];
+       $email = $_POST['email'];
+       $rol = $_POST['rol'];
 
        $message = "";
     
-       if($this->model->insert(['user' => $user, 'password' => $password])){
+       if($this->model->insert(['dni' => $dni, 'nombre' => $nombre,'apellido' => $apellido, 'fecha_nac' => $fecha_nac, 'usuario' => $usuario, 'password' => $password, 'email' => $email, 'rol' => $rol])){
             $message = "registro exitoso";
        }else{
             $message = "ya existe";

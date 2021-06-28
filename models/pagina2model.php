@@ -10,9 +10,9 @@ class Pagina2Model extends Model{
         
         try{
 
-        $query = $this->db->connect()->prepare('INSERT INTO LOGIN (USER,PASSWORD) VALUES (:user, :password)');
+        $query = $this->db->connect()->prepare('INSERT INTO empleado (dni,nombre,apellido,fecha_nac,usuario,password,email,rol) VALUES (:dni, :nombre,:apellido, :fecha_nac, :usuario, :password, :email, :rol)');
 
-        $query->execute(['user' => $datos['user'], 'password' => $datos['password']]);
+        $query->execute(['dni' => $datos['dni'], 'nombre' => $datos['nombre'], 'apellido' => $datos['apellido'], 'fecha_nac' => $datos['fecha_nac'], 'usuario' => $datos['usuario'], 'password' => $datos['password'], 'email' => $datos['email'], 'rol' => $datos['rol']]);
 
          return true;
         }catch(PDOException $e){
