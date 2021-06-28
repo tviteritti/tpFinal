@@ -107,6 +107,25 @@ class SupervisorModel extends Model{
         }
         
     }
+
+    public function getNroProforma(){
+        
+        try{
+            $nro = 0;
+
+            $query = $this->db->connect()->query('SELECT MAX(numero) FROM proforma');
+
+            while($row = $query->fetch()){
+                $nro      = $row[0];
+            }
+            return $nro;
+        }catch(PDOException $e){
+           
+            
+            return 0;
+        }
+        
+    }
 }
 
 ?>

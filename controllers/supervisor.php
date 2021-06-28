@@ -1,11 +1,13 @@
 <?php
 
 class Supervisor extends Controller{
-    
+        
+
     function __construct(){
         parent::__construct();
         $this->view->message = "";
         $this->view->empleados = [];
+        
     }
 
     function render(){
@@ -112,12 +114,17 @@ class Supervisor extends Controller{
     }
 
     function cargarProforma(){
+        
+        $cont = $this->model->getNroProforma() + 1 ;
+        
+            
+       
         $this->cargarViaje();
-        $id_viaje = $this->model->id_viaje;
+        $id_viaje = $cont;
         $this->cargarCarga();
-        $id_carga = $this->model->id_carga;
+        $id_carga = $cont;
         $this->cargarCosteo();
-        $id_costeo = $this->model->id_costeo;
+        $id_costeo = $cont;
         
         
         
