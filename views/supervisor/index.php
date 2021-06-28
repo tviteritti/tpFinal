@@ -24,16 +24,16 @@
     <input type="number" name="kilometros_r" ><br>
     <input type="number" name="combustible_e" ><br>
     <input type="number" name="combustible_r" ><br>
-    <input type="number" name="etd_e" ><br>
-    <input type="number" name="etd_r" ><br>
-    <input type="number" name="eta_e" ><br>
-    <input type="number" name="eta_r" ><br>
+    <input type="number" name="ETD_e" ><br>
+    <input type="number" name="ETD_r" ><br>
+    <input type="number" name="ETA_e" ><br>
+    <input type="number" name="ETA_r" ><br>
     <input type="number" name="viaticos_e" ><br>
     <input type="number" name="viaticos_r" ><br>
     <input type="number" name="peajes_pesajes_e" ><br>
     <input type="number" name="peajes_pesajes_r" ><br>
-    <input type="number" name="extra_e" ><br>
-    <input type="number" name="extra_r" ><br>
+    <input type="number" name="extras_e" ><br>
+    <input type="number" name="extras_r" ><br>
     <input type="number" name="hazard_e" ><br>
     <input type="number" name="hazard_r" ><br>
     <input type="number" name="reefer_e" ><br>
@@ -61,5 +61,39 @@
     <div><?php echo $this->message;?></div>
 </form>
 
+<h1>consulta</h1>
+
+<table width="100%">
+    <thead>
+        <tr>
+            <th>numero</th>
+            <th>fecha</th>
+            <th>id_viaje</th>
+            <th>id_carga</th>
+            <th>id_costeo</th>
+            <th>id_chofer</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php 
+        include_once 'models/proforma.php';
+            foreach($this->proforma as $row) {
+                $proforma = new Proforma();
+                $proforma = $row;
+            
+        ?>
+        <tr>
+            <td><?php echo $proforma->numero; ?></td>
+            <td><?php echo $proforma->fecha; ?></td>
+            <td><?php echo $proforma->id_viaje; ?></td>
+            <td><?php echo $proforma->id_carga; ?></td>
+            <td><?php echo $proforma->id_costeo; ?></td>
+            <td><?php echo $proforma->id_chofer; ?></td>
+            <td><a href="<?php echo constant('URL') . 'supervisor/verProforma/' . $proforma->numero;?>">Editar</a></td>
+            <td><a href="<?php echo constant('URL') . 'supervisor/eliminarProforma/' . $proforma->numero;?>">Eliminar</a></td>
+        </tr>
+        <?php } ?>
+    </tbody>
+</table>
 
 <?php require 'views/footer.php';?>
