@@ -4,7 +4,7 @@
 <h1>supervisor</h1>
 <a href="<?php echo constant('URL');?>supervisor/cerrarSesion">cerrar session</a>
 
-<form action="<?php echo constant('URL');?>supervisor/cargarCosteo" method="POST">
+<form action="<?php echo constant('URL');?>supervisor/cargarProforma" method="POST">
     <input type="date" name="fecha" ><br>
 
     <h2>viaje</h2>
@@ -43,11 +43,23 @@
     
 
     <h2>chofer</h2>
-    <input type="number" name="chofer" ><br>
+    <select name="id_chofer">
+    <?php 
+        include_once 'models/empleado.php';
+            foreach($this->empleados as $row) {
+                $empleado = new Empleado();
+                $empleado = $row;
+            
+    ?>
+        <option value="<?php echo $empleado->id; ?>"><?php echo $empleado->nombre ." ". $empleado->apellido; ?></option>
+    </select>
+    <?php } ?>
+    <br>
 
 
     <input type="submit" value="registrar"><br><br>
     <div><?php echo $this->message;?></div>
 </form>
+
 
 <?php require 'views/footer.php';?>

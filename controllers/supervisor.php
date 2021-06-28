@@ -5,10 +5,13 @@ class Supervisor extends Controller{
     function __construct(){
         parent::__construct();
         $this->view->message = "";
+        $this->view->empleados = [];
     }
 
     function render(){
         if( isset($_SESSION["supervisor"]) ){
+            $empleados = $this->model->getChoferes();
+            $this->view->empleados = $empleados;
             $this->view->render('supervisor/index');
             exit();
         }else{
@@ -40,13 +43,13 @@ class Supervisor extends Controller{
        $message = "";
     
        if($this->model->insertViaje(['origen' => $origen, 'destino' => $destino, 'fecha_carga' => $fecha_carga, 'ETA' => $ETA])){
-            $message = "registro exitoso";
+            
        }else{
-            $message = "ya existe";
+            $message = "error viaje";
        }
 
        $this->view->message = $message;
-       $this->render();
+       
 
     }
 
@@ -59,13 +62,13 @@ class Supervisor extends Controller{
        $message = "";
     
        if($this->model->insertCarga(['tipo' => $tipo, 'peso_neto' => $peso_neto, 'hazard' => $hazard, 'reefer' => $reefer])){
-            $message = "registro exitoso";
+            
        }else{
-            $message = "ya existe";
+            $message = "error carga";
        }
 
        $this->view->message = $message;
-       $this->render();
+       
 
     }
 
@@ -98,9 +101,40 @@ class Supervisor extends Controller{
        $message = "";
     
        if($this->model->insertCosteo(['kilometros_e' => $kilometros_e, 'kilometros_r' => $kilometros_r, 'combustible_e' => $combustible_e, 'combustible_r' => $combustible_r, 'etd_e' => $etd_e, 'etd_r' => $etd_r, 'eta_e' => $eta_e, 'eta_r' => $eta_r,'viaticos_e' => $viaticos_e, 'viaticos_r' => $viaticos_r, 'peajes_pesajes_e' => $peajes_pesajes_e, 'peajes_pesajes_r' => $peajes_pesajes_r, 'extra_e' => $extra_e, 'extra_r' => $extra_r, 'hazard_e' => $hazard_e, 'hazard_r' => $hazard_r, 'reefer_e' => $reefer_e, 'reefer_r' => $reefer_r, 'fee_e' => $fee_e, 'fee_r' => $fee_r,'total_e'=> $total_e, 'total_r'=> $total_r])){
+            
+       }else{
+            $message = "error costeo";
+       }
+
+       $this->view->message = $message;
+       
+
+    }
+
+    function cargarProforma(){
+        $this->cargarViaje();
+        $id_viaje = $this->model->id_viaje;
+        $this->cargarCarga();
+        $id_carga = $this->model->id_carga;
+        $this->cargarCosteo();
+        $id_costeo = $this->model->id_costeo;
+        
+        
+        
+        
+        
+
+       $fecha = $_POST['fecha'];
+       
+
+       $id_chofer= $_POST['id_chofer'];
+
+       $message = "";
+    
+       if($this->model->insertProforma(['fecha' => $fecha, 'id_viaje' => $id_viaje, 'id_carga' => $id_carga, 'id_costeo' => $id_costeo, 'id_chofer' => $id_chofer])){
             $message = "registro exitoso";
        }else{
-            $message = "ya existe";
+            $message = "error proforma";
        }
 
        $this->view->message = $message;
