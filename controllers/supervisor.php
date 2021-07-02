@@ -7,8 +7,8 @@ class Supervisor extends Controller{
         parent::__construct();
         $this->view->message = "";
         $this->view->empleados = [];
+        $this->view->vehiculos = [];
         $this->view->proforma = [];
-        
     }
 
     function render(){
@@ -16,7 +16,9 @@ class Supervisor extends Controller{
             $empleados = $this->model->getChoferes();
             $this->view->empleados = $empleados;
             $proforma = $this->model->getProforma();
-            $this->view->proforma = $proforma; 
+            $this->view->proforma = $proforma;
+            $vehiculos = $this->model->getVehiculos();
+            $this->view->vehiculos = $vehiculos;
             $this->view->render('supervisor/index');
             exit();
         }else{
@@ -39,7 +41,7 @@ class Supervisor extends Controller{
 
     }
 
-    function cargarViaje(){
+     function cargarViaje(){
        $origen = $_POST['origen'];
        $destino = $_POST['destino'];
        $fecha_carga = $_POST['fecha_carga'];
@@ -77,42 +79,61 @@ class Supervisor extends Controller{
 
     }
 
-    function cargarCosteo(){
-       $kilometros_e = $_POST['kilometros_e'];
-       $kilometros_r = $_POST['kilometros_r'];
-       $combustible_e = $_POST['combustible_e'];
-       $combustible_r = $_POST['combustible_r'];
-       $ETD_e = $_POST['ETD_e'];
-       $ETD_r = $_POST['ETD_r'];
-       $ETA_e = $_POST['ETA_e'];
-       $ETA_r = $_POST['ETA_r'];
-       $viaticos_e = $_POST['viaticos_e'];
-       $viaticos_r = $_POST['viaticos_r'];
-       $peajes_pesajes_e = $_POST['peajes_pesajes_e'];
-       $peajes_pesajes_r = $_POST['peajes_pesajes_r'];
-       $extras_e = $_POST['extras_e'];
-       $extras_r = $_POST['extras_r'];
-       $hazard_e = $_POST['hazard_e'];
-       $hazard_r = $_POST['hazard_r'];
-       $reefer_e = $_POST['reefer_e'];
-       $reefer_r = $_POST['reefer_r'];
-       $fee_e = $_POST['fee_e'];
-       $fee_r = $_POST['fee_r'];
-
-       $total_e = $kilometros_e + $combustible_e + $ETD_e + $ETA_e + $viaticos_e + $peajes_pesajes_e + $extras_e + $hazard_e + $reefer_e + $fee_e;
-
-       $total_r=$kilometros_r + $combustible_r + $ETD_r + $ETA_r + $viaticos_r + $peajes_pesajes_r + $extras_r + $hazard_r + $reefer_r + $fee_r;
+    function cargarCosteoReal(){
+       $kilometros_r = 0;
 
        $message = "";
     
-       if($this->model->insertCosteo(['kilometros_e' => $kilometros_e, 'kilometros_r' => $kilometros_r, 'combustible_e' => $combustible_e, 'combustible_r' => $combustible_r, 'ETD_e' => $ETD_e, 'ETD_r' => $ETD_r, 'ETA_e' => $ETA_e, 'ETA_r' => $ETA_r,'viaticos_e' => $viaticos_e, 'viaticos_r' => $viaticos_r, 'peajes_pesajes_e' => $peajes_pesajes_e, 'peajes_pesajes_r' => $peajes_pesajes_r, 'extras_e' => $extras_e, 'extras_r' => $extras_r, 'hazard_e' => $hazard_e, 'hazard_r' => $hazard_r, 'reefer_e' => $reefer_e, 'reefer_r' => $reefer_r, 'fee_e' => $fee_e, 'fee_r' => $fee_r,'total_e'=> $total_e, 'total_r'=> $total_r])){
+       if($this->model->insertCosteoReal(['kilometros_r' => $kilometros_r])){
+            
+       }else{
+            $message = "error CosteoReal";
+       }
+
+       $this->view->message = $message;
+       
+
+    }
+
+    function cargarCosteo(){
+       $kilometros_e = $_POST['kilometros_e'];
+       
+       $combustible_e = $_POST['combustible_e'];
+       
+       $ETD_e = $_POST['ETD_e'];
+       
+       $ETA_e = $_POST['ETA_e'];
+       
+       $viaticos_e = $_POST['viaticos_e'];
+       
+       $peajes_pesajes_e = $_POST['peajes_pesajes_e'];
+       
+       $extras_e = $_POST['extras_e'];
+       
+       $hazard_e = $_POST['hazard_e'];
+       
+       $reefer_e = $_POST['reefer_e'];
+       
+       $fee_e = $_POST['fee_e'];
+
+       $total_e = $kilometros_e + $combustible_e + $viaticos_e +$peajes_pesajes_e +$extras_e + $hazard_e+ $reefer_e+$fee_e;
+       
+
+       
+
+       
+
+       $message = "";
+    
+       if($this->model->insertCosteo(['kilometros_e' => $kilometros_e,'combustible_e' => $combustible_e,'viaticos_e' => $viaticos_e,'peajes_pesajes_e' => $peajes_pesajes_e,'extras_e' => $extras_e,'hazard_e' => $hazard_e,'reefer_e' => $reefer_e,'fee_e' => $fee_e,'ETD_e' => $ETD_e,'ETA_e' => $ETA_e,'total_e' => $total_e])){
             
        }else{
             $message = "error costeo";
        }
 
        $this->view->message = $message;
-       
+        
+      
 
     }
 
@@ -127,8 +148,10 @@ class Supervisor extends Controller{
         $this->cargarCarga();
         $id_carga = $cont;
         $this->cargarCosteo();
-        $id_costeo = $cont;
-        
+        $id_costeo_estimado = $cont;
+        $this->cargarCosteoReal();
+        $id_costeo_real = $cont;
+        $estado = 'antes';
         
         
         
@@ -138,10 +161,11 @@ class Supervisor extends Controller{
        
 
        $id_chofer= $_POST['id_chofer'];
+       $id_vehiculo= $_POST['id_vehiculo'];
 
        $message = "";
     
-       if($this->model->insertProforma(['fecha' => $fecha, 'id_viaje' => $id_viaje, 'id_carga' => $id_carga, 'id_costeo' => $id_costeo, 'id_chofer' => $id_chofer])){
+       if($this->model->insertProforma(['fecha' => $fecha, 'id_viaje' => $id_viaje, 'id_carga' => $id_carga, 'id_costeo_estimado' => $id_costeo_estimado, 'id_chofer' => $id_chofer, 'id_vehiculo' => $id_vehiculo, 'id_costeo_real' => $id_costeo_real, 'estado' => $estado])){
             $message = "registro exitoso";
        }else{
             $message = "error proforma";
@@ -165,12 +189,13 @@ class Supervisor extends Controller{
 
     function actualizarProforma(){
         
-        $numero         = $_POST['numero'];
-        $fecha        = $_POST['fecha'];
-        $id_viaje     = $_POST['id_viaje'];
-        $id_carga   = $_POST['id_carga'];
-        $id_costeo  = $_POST['id_costeo'];
-        $id_chofer    = $_POST['id_chofer'];
+        $numero              = $_POST['numero'];
+        $fecha               = $_POST['fecha'];
+        $id_viaje            = $_POST['id_viaje'];
+        $id_carga            = $_POST['id_carga'];
+        $id_costeo_estimado  = $_POST['id_costeo_estimado'];
+        $id_chofer           = $_POST['id_chofer'];
+        $id_vehiculo         = $_POST['id_vehiculo'];
 
         $tipo         = $_POST['tipo'];
         $peso_neto        = $_POST['peso_neto'];
@@ -183,40 +208,31 @@ class Supervisor extends Controller{
         $ETA   = $_POST['ETA'];
 
         $kilometros_e = $_POST['kilometros_e'];
-        $kilometros_r = $_POST['kilometros_r'];
-        $combustible_e = $_POST['combustible_e'];
-        $combustible_r = $_POST['combustible_r'];
-        $ETD_e = $_POST['ETD_e'];
-        $ETD_r = $_POST['ETD_r'];
-        $ETA_e = $_POST['ETA_e'];
-        $ETA_r = $_POST['ETA_r'];
-        $viaticos_e = $_POST['viaticos_e'];
-        $viaticos_r = $_POST['viaticos_r'];
-        $peajes_pesajes_e = $_POST['peajes_pesajes_e'];
-        $peajes_pesajes_r = $_POST['peajes_pesajes_r'];
-        $extras_e = $_POST['extras_e'];
-        $extras_r = $_POST['extras_r'];
-        $hazard_e = $_POST['hazard_e'];
-        $hazard_r = $_POST['hazard_r'];
-        $reefer_e = $_POST['reefer_e'];
-        $reefer_r = $_POST['reefer_r'];
+        $combustible_e = $_POST['combustible_e'];        
+        $ETD_e = $_POST['ETD_e'];        
+        $ETA_e = $_POST['ETA_e'];        
+        $viaticos_e = $_POST['viaticos_e'];        
+        $peajes_pesajes_e = $_POST['peajes_pesajes_e'];        
+        $extras_e = $_POST['extras_e'];        
+        $hazard_e = $_POST['hazard_e'];        
+        $reefer_e = $_POST['reefer_e'];        
         $fee_e = $_POST['fee_e'];
-        $fee_r = $_POST['fee_r'];
-
-        $total_e = $kilometros_e + $combustible_e + $ETD_e + $ETA_e + $viaticos_e + $peajes_pesajes_e + $extras_e + $hazard_e + $reefer_e + $fee_e;
-
-       $total_r=$kilometros_r + $combustible_r + $ETD_r + $ETA_r + $viaticos_r + $peajes_pesajes_r + $extras_r + $hazard_r + $reefer_r + $fee_r;
         
 
-        if($this->model->update(['numero'=>$numero, 'fecha'=>$fecha, 'id_viaje'=>$id_viaje, 'id_carga'=>$id_carga, 'id_costeo'=>$id_costeo, 'id_chofer'=>$id_chofer, 'tipo' => $tipo, 'peso_neto' => $peso_neto, 'hazard' => $hazard, 'reefer' => $reefer, 'origen' => $origen, 'destino' => $destino, 'fecha_carga' => $fecha_carga, 'ETA' => $ETA,'kilometros_e' => $kilometros_e, 'kilometros_r' => $kilometros_r, 'combustible_e' => $combustible_e, 'combustible_r' => $combustible_r, 'ETD_e' => $ETD_e, 'ETD_r' => $ETD_r, 'ETA_e' => $ETA_e, 'ETA_r' => $ETA_r,'viaticos_e' => $viaticos_e, 'viaticos_r' => $viaticos_r, 'peajes_pesajes_e' => $peajes_pesajes_e, 'peajes_pesajes_r' => $peajes_pesajes_r, 'extras_e' => $extras_e, 'extras_r' => $extras_r, 'hazard_e' => $hazard_e, 'hazard_r' => $hazard_r, 'reefer_e' => $reefer_e, 'reefer_r' => $reefer_r, 'fee_e' => $fee_e, 'fee_r' => $fee_r,'total_e'=> $total_e, 'total_r'=> $total_r])){
+        $total_e = $kilometros_e + $combustible_e + $viaticos_e +$peajes_pesajes_e +$extras_e + $hazard_e+ $reefer_e+$fee_e;
+        
+
+        if($this->model->update(['numero'=>$numero, 'fecha'=>$fecha, 'id_viaje'=>$id_viaje, 'id_carga'=>$id_carga, 'id_costeo_estimado'=>$id_costeo_estimado, 'id_chofer'=>$id_chofer, 'id_vehiculo'=>$id_vehiculo, 'tipo' => $tipo, 'peso_neto' => $peso_neto, 'hazard' => $hazard, 'reefer' => $reefer, 'origen' => $origen, 'destino' => $destino, 'fecha_carga' => $fecha_carga, 'ETA' => $ETA,'kilometros_e' => $kilometros_e, 'combustible_e' => $combustible_e, 'ETD_e' => $ETD_e, 'ETA_e' => $ETA_e, 'viaticos_e' => $viaticos_e, 'peajes_pesajes_e' => $peajes_pesajes_e, 'extras_e' => $extras_e,'hazard_e' => $hazard_e, 'reefer_e' => $reefer_e,'fee_e' => $fee_e, 'total_e'=> $total_e])){
 
             $proforma = new Proforma();
             $proforma->numero = $numero;
             $proforma->fecha = $fecha;
             $proforma->id_viaje = $id_viaje;
             $proforma->id_carga = $id_carga;
-            $proforma->id_costeo = $id_costeo;
+            $proforma->id_costeo_estimado = $id_costeo_estimado;
             $proforma->id_chofer = $id_chofer;
+            $proforma->id_vehiculo = $id_vehiculo;
+
 
             $proforma->tipo = $tipo;
             $proforma->peso_neto = $peso_neto;
@@ -228,28 +244,17 @@ class Supervisor extends Controller{
             $proforma->fecha_carga = $fecha_carga;
             $proforma->ETA = $ETA;
 
-            $proforma->kilometros_e = $kilometros_e;
-            $proforma->kilometros_r = $kilometros_r;
-            $proforma->combustible_e = $combustible_e;
-            $proforma->combustible_r = $combustible_r;
-            $proforma->ETD_e = $ETD_e;
-            $proforma->ETD_r = $ETD_r;
-            $proforma->ETA_e = $ETA_e;
-            $proforma->ETA_r = $ETA_r;
-            $proforma->viaticos_e = $viaticos_e;
-            $proforma->viaticos_r = $viaticos_r;
-            $proforma->peajes_pesajes_e = $peajes_pesajes_e;
-            $proforma->peajes_pesajes_r = $peajes_pesajes_r;
-            $proforma->extras_e = $extras_e;
-            $proforma->extras_r = $extras_r;
-            $proforma->hazard_e = $hazard_e;
-            $proforma->hazard_r = $hazard_r;
-            $proforma->reefer_e = $reefer_e;
-            $proforma->reefer_r = $reefer_r;
-            $proforma->fee_e = $fee_e;
-            $proforma->fee_r = $fee_r;
-            $proforma->total_e = $total_e;
-            $proforma->total_r = $total_r;
+            $proforma->kilometros_e = $kilometros_e;            
+            $proforma->combustible_e = $combustible_e;            
+            $proforma->ETD_e = $ETD_e;            
+            $proforma->ETA_e = $ETA_e;            
+            $proforma->viaticos_e = $viaticos_e;            
+            $proforma->peajes_pesajes_e = $peajes_pesajes_e;            
+            $proforma->extras_e = $extras_e;            
+            $proforma->hazard_e = $hazard_e;            
+            $proforma->reefer_e = $reefer_e;            
+            $proforma->fee_e = $fee_e;            
+            $proforma->total_e = $total_e;           
 
 
 
@@ -271,6 +276,7 @@ class Supervisor extends Controller{
         }
         $this->render();
     }
+
 }
 
 ?>

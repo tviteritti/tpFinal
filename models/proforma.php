@@ -6,8 +6,9 @@ class Proforma{
     public $fecha;
     public $id_viaje;
     public $id_carga;
-    public $id_costeo;
+    public $id_costeo_estimado;
     public $id_chofer;
+    public $id_vehiculo;
 
     public $tipo;
     public $peso_neto;

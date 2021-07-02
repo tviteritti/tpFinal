@@ -28,27 +28,27 @@ class Main extends Controller{
             $rol = $empleado->rol;
             switch($rol){
                 case "chofer":
-                    $_SESSION["chofer"] = $rol;
+                    $_SESSION["chofer"] = $empleado->id;
                     header('location:http://localhost/tpFinal/chofer');      //cambiar por la URL que tengan
                     exit();
                     break;
                 case "supervisor":
-                    $_SESSION["supervisor"] = $rol;
+                    $_SESSION["supervisor"] = $empleado->id;
                     header('location:http://localhost/tpFinal/supervisor');      //cambiar por la URL que tengan
                     exit();
                     break;
                 case "encargado":
-                    $_SESSION["encargado"] = $rol;
+                    $_SESSION["encargado"] = $empleado->id;
                     header('location:http://localhost/tpFinal/encargado');      //cambiar por la URL que tengan
                     exit();
                     break;
                 case "administrador":                  
-                    $_SESSION["administrador"] = $rol;
+                    $_SESSION["administrador"] = $empleado->id;
                     header('location:http://localhost/tpFinal/administrador');      //cambiar por la URL que tengan
                     exit();
                     break;
                 case "mecanico":
-                    $_SESSION["mecanico"] = $rol;
+                    $_SESSION["mecanico"] = $empleado->id;
                     header('location:http://localhost/tpFinal/mecanico');      //cambiar por la URL que tengan
                     exit();
                     break;

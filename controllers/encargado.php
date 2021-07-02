@@ -4,10 +4,13 @@ class Encargado extends Controller{
     
     function __construct(){
         parent::__construct();
+        $this->view->message = "";
+
     }
 
     function render(){
         if( isset($_SESSION["encargado"]) ){
+ 
             $this->view->render('encargado/index');
             exit();
         }else{
@@ -29,6 +32,8 @@ class Encargado extends Controller{
 
 
     }
+
+   
 }
 
 ?>

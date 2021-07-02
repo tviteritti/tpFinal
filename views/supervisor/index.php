@@ -11,7 +11,7 @@
     <input type="text" name="origen" ><br>
     <input type="text" name="destino" ><br>
     <input type="date" name="fecha_carga" ><br>
-    <input type="text" name="ETA" ><br>
+    <input type="date" name="ETA" ><br>
 
     <h2>carga</h2>
     <input type="text" name="tipo" ><br>
@@ -20,26 +20,26 @@
     <input type="text" name="reefer" ><br>
 
     <h2>costeo</h2>
+    <input type="date" name="ETD_e" ><br>
+  
+    <input type="date" name="ETA_e" ><br>
+
     <input type="number" name="kilometros_e" ><br>
-    <input type="number" name="kilometros_r" ><br>
+    
     <input type="number" name="combustible_e" ><br>
-    <input type="number" name="combustible_r" ><br>
-    <input type="number" name="ETD_e" ><br>
-    <input type="number" name="ETD_r" ><br>
-    <input type="number" name="ETA_e" ><br>
-    <input type="number" name="ETA_r" ><br>
+    
     <input type="number" name="viaticos_e" ><br>
-    <input type="number" name="viaticos_r" ><br>
+    
     <input type="number" name="peajes_pesajes_e" ><br>
-    <input type="number" name="peajes_pesajes_r" ><br>
+   
     <input type="number" name="extras_e" ><br>
-    <input type="number" name="extras_r" ><br>
+    
     <input type="number" name="hazard_e" ><br>
-    <input type="number" name="hazard_r" ><br>
+    
     <input type="number" name="reefer_e" ><br>
-    <input type="number" name="reefer_r" ><br>
+    
     <input type="number" name="fee_e" ><br>
-    <input type="number" name="fee_r" ><br>
+    
     
 
     <h2>chofer</h2>
@@ -52,8 +52,24 @@
             
     ?>
         <option value="<?php echo $empleado->id; ?>"><?php echo $empleado->nombre ." ". $empleado->apellido; ?></option>
+        <?php } ?>
     </select>
-    <?php } ?>
+    
+    <br>
+
+    <h2>vehiculos</h2>
+    <select name="id_vehiculo">
+    <?php 
+        include_once 'models/vehiculo.php';
+            foreach($this->vehiculos as $row) {
+                $vehiculo = new Vehiculo();
+                $vehiculo = $row;
+            
+    ?>
+        <option value="<?php echo $vehiculo->id; ?>"><?php echo $vehiculo->marca ." ". $vehiculo->modelo; ?></option>
+        <?php } ?>
+    </select>
+    
     <br>
 
 
@@ -70,8 +86,9 @@
             <th>fecha</th>
             <th>id_viaje</th>
             <th>id_carga</th>
-            <th>id_costeo</th>
+            <th>id_costeo_estimado</th>
             <th>id_chofer</th>
+            <th>id_vehiculo</th>
         </tr>
     </thead>
     <tbody>
@@ -87,8 +104,9 @@
             <td><?php echo $proforma->fecha; ?></td>
             <td><?php echo $proforma->id_viaje; ?></td>
             <td><?php echo $proforma->id_carga; ?></td>
-            <td><?php echo $proforma->id_costeo; ?></td>
+            <td><?php echo $proforma->id_costeo_estimado; ?></td>
             <td><?php echo $proforma->id_chofer; ?></td>
+            <td><?php echo $proforma->id_vehiculo; ?></td>
             <td><a href="<?php echo constant('URL') . 'supervisor/verProforma/' . $proforma->numero;?>">Editar</a></td>
             <td><a href="<?php echo constant('URL') . 'supervisor/eliminarProforma/' . $proforma->numero;?>">Eliminar</a></td>
         </tr>
