@@ -1,10 +1,10 @@
-    <header class="header" id="header">
+ <header class="header" id="header">
         <div class="header__toggle">
             <i class='bx bx-menu' id="header-toggle"></i>
         </div>
 
-        <div class="header__img">
-            <img src="views/img/perfil.jpg" alt="">
+        <div>
+            <span style="color:orange">Encargado</span>
         </div>
     </header>
 
@@ -18,33 +18,33 @@
 
                 <div class="nav__list">
                     <a href="<?php echo constant('URL');?>main" class="nav__link">
-                        <i class='bx  bx-home  nav__icon'></i>
-                        <span class="nav__name">Messages</span>
+                        <i class='bx bxs-truck' ></i>
+                        <span class="nav__name">vehiculos</span>
                     </a>
 
                     <a href="<?php echo constant('URL');?>ayuda" class="nav__link">
-                        <i class='bx bx-message-square-detail nav__icon'></i>
-                        <span class="nav__name">Users</span>
+                        <i class='bx bxs-pin' ></i>
+                        <span class="nav__name">Posicion choferes</span>
                     </a>
 
                     <a href="<?php echo constant('URL');?>pagina2" class="nav__link">
-                        <i class='bx bx-message-add nav__icon'></i>
+                        <i class='bx bxs-wrench' ></i>
                         <span class="nav__name">Dashboard</span>
                     </a>
 
                     <a href="<?php echo constant('URL');?>consulta" class="nav__link">
-                        <i class='bx bx-medal nav__icon'></i>
+                        <i class='bx bx-calendar' ></i>
                         <span class="nav__name">Data</span>
                     </a>
 
                     <a href="<?php echo constant('URL');?>pagina4" class="nav__link">
-                        <i class='bx bx-user nav__icon'></i>
+                        <i class='bx bx-alarm-exclamation' ></i>
                         <span class="nav__name">Favorites</span>
                     </a>
                 </div>
             </div>
 
-            <a href="#" class="nav__link">
+            <a href="<?php echo constant('URL');?>encargado/cerrarSesion" class="nav__link">
                 <i class='bx bx-log-out nav__icon'></i>
                 <span class="nav__name">Log Out</span>
             </a>

@@ -43,6 +43,15 @@ class Proforma{
     public $total_e;
     public $total_r;
 
+    public $id;
+    public $kilometros;
+    public $combustible;
+    public $combustible_usado;
+    public $kilometros_usado;
+    public $latitud;
+    public $longitud;
+    public $combustible_comprado;
+    public $estado;
 }
 
 ?>

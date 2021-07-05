@@ -11,9 +11,9 @@
     <input type="text" name="usuario" ><br>
     <input type="text" name="password" ><br>
     <input type="text" name="email" ><br>
-    <input type="text" name="rol" ><br>
     <input type="submit" value="registrar"><br><br>
-    <div><?php echo $this->message;?></div>
+    <div><?php echo $this->mensaje;?></div>
 </form>
+
 
 <?php require 'views/footer.php';?>

@@ -131,6 +131,72 @@ class SupervisorModel extends Model{
         
     }
 
+    public function getChoferesEnViaje(){
+        
+        try{
+            $items = [];
+
+            $query = $this->db->connect()->query('SELECT * FROM proforma LEFT JOIN empleado ON proforma.id_chofer=empleado.id where proforma.estado="en curso" GROUP BY proforma.id_chofer');
+            
+
+            while($row = $query->fetch()){
+                $item = new Empleado();
+
+                $item->id        = $row['id'];
+                $item->dni       = $row['dni'];
+                $item->nombre    = $row['nombre'];
+                $item->apellido  = $row['apellido'];
+                $item->fecha_nac = $row['fecha_nac'];
+                $item->usuario   = $row['usuario'];
+                $item->password  = $row['password'];
+                $item->email     = $row['email'];
+                $item->rol       = $row['rol'];
+
+                array_push($items, $item);
+            }
+            
+            return $items;
+        }catch(PDOException $e){
+           
+            
+            return [];
+        }
+        
+    }
+
+    public function getdatosByChofer($id_chofer){
+       try{
+             $items = [];
+
+            $query = $this->db->connect()->prepare('SELECT * FROM datosviaje where id_chofer= :id_chofer and estado = 1');
+
+            $query->execute(['id_chofer' => $id_chofer]);
+
+            while($row = $query->fetch()){
+                $item = new Proforma();
+
+                $item->id                   = $row['id'];
+                $item->kilometros           = $row['kilometros'];
+                $item->combustible          = $row['combustible'];
+                $item->combustible_usado    = $row['combustible_usado'];
+                $item->kilometros_usado     = $row['kilometros_usado'];
+                $item->latitud              = $row['latitud'];
+                $item->longitud             = $row['longitud'];
+                $item->combustible_comprado = $row['combustible_comprado'];
+                
+
+
+                array_push($items, $item);
+            }
+            
+            return $items;
+        }catch(PDOException $e){
+          
+            
+            return [];
+        }
+    }
+
     public function getVehiculos(){
         
         try{

@@ -4,7 +4,7 @@ class Encargado extends Controller{
     
     function __construct(){
         parent::__construct();
-        $this->view->message = "";
+        $this->view->mensaje = "";
 
     }
 

@@ -5,7 +5,7 @@ class Supervisor extends Controller{
 
     function __construct(){
         parent::__construct();
-        $this->view->message = "";
+        $this->view->mensaje = "";
         $this->view->empleados = [];
         $this->view->vehiculos = [];
         $this->view->proforma = [];
@@ -47,15 +47,15 @@ class Supervisor extends Controller{
        $fecha_carga = $_POST['fecha_carga'];
        $ETA = $_POST['ETA'];
 
-       $message = "";
+       $mensaje = "";
     
        if($this->model->insertViaje(['origen' => $origen, 'destino' => $destino, 'fecha_carga' => $fecha_carga, 'ETA' => $ETA])){
             
        }else{
-            $message = "error viaje";
+            $mensaje = "error viaje";
        }
 
-       $this->view->message = $message;
+       $this->view->mensaje = $mensaje;
        
 
     }
@@ -66,15 +66,15 @@ class Supervisor extends Controller{
        $hazard = $_POST['hazard'];
        $reefer = $_POST['reefer'];
 
-       $message = "";
+       $mensaje = "";
     
        if($this->model->insertCarga(['tipo' => $tipo, 'peso_neto' => $peso_neto, 'hazard' => $hazard, 'reefer' => $reefer])){
             
        }else{
-            $message = "error carga";
+            $mensaje = "error carga";
        }
 
-       $this->view->message = $message;
+       $this->view->mensaje = $mensaje;
        
 
     }
@@ -82,15 +82,15 @@ class Supervisor extends Controller{
     function cargarCosteoReal(){
        $kilometros_r = 0;
 
-       $message = "";
+       $mensaje = "";
     
        if($this->model->insertCosteoReal(['kilometros_r' => $kilometros_r])){
             
        }else{
-            $message = "error CosteoReal";
+            $mensaje = "error CosteoReal";
        }
 
-       $this->view->message = $message;
+       $this->view->mensaje = $mensaje;
        
 
     }
@@ -123,15 +123,15 @@ class Supervisor extends Controller{
 
        
 
-       $message = "";
+       $mensaje = "";
     
        if($this->model->insertCosteo(['kilometros_e' => $kilometros_e,'combustible_e' => $combustible_e,'viaticos_e' => $viaticos_e,'peajes_pesajes_e' => $peajes_pesajes_e,'extras_e' => $extras_e,'hazard_e' => $hazard_e,'reefer_e' => $reefer_e,'fee_e' => $fee_e,'ETD_e' => $ETD_e,'ETA_e' => $ETA_e,'total_e' => $total_e])){
             
        }else{
-            $message = "error costeo";
+            $mensaje = "error costeo";
        }
 
-       $this->view->message = $message;
+       $this->view->mensaje = $mensaje;
         
       
 
@@ -163,15 +163,15 @@ class Supervisor extends Controller{
        $id_chofer= $_POST['id_chofer'];
        $id_vehiculo= $_POST['id_vehiculo'];
 
-       $message = "";
+       $mensaje = "";
     
        if($this->model->insertProforma(['fecha' => $fecha, 'id_viaje' => $id_viaje, 'id_carga' => $id_carga, 'id_costeo_estimado' => $id_costeo_estimado, 'id_chofer' => $id_chofer, 'id_vehiculo' => $id_vehiculo, 'id_costeo_real' => $id_costeo_real, 'estado' => $estado])){
-            $message = "registro exitoso";
+            $mensaje = "registro exitoso";
        }else{
-            $message = "error proforma";
+            $mensaje = "error proforma";
        }
 
-       $this->view->message = $message;
+       $this->view->mensaje = $mensaje;
        $this->render();
 
     }
@@ -185,6 +185,42 @@ class Supervisor extends Controller{
         $this->view->proforma = $proforma;
         $this->view->mensaje = "";
         $this->view->render('supervisor/detalle');
+    }
+
+    function verPosicion(){
+        
+        $empleados = $this->model->getChoferesEnViaje();
+
+       
+        
+        $this->view->empleados = $empleados;
+        $this->view->mensaje = "";
+        $this->view->render('supervisor/mostrarPosision');
+    }
+
+     function generarQr($param = null){
+        $id_chofer = $param[0];
+        $datos = $this->model->getdatosByChofer($id_chofer);
+       
+        $latitud = $datos[0]->latitud;
+        $longitud = $datos[0]->longitud;
+
+        include_once("phpqrcode/qrlib.php");
+
+        
+        QRcode::png("https://maps.google.com/maps?q=".$latitud.",".$longitud);
+        
+
+        
+        $this->view->render('supervisor/generarQr');
+    }
+
+    function agregarProforma(){
+        $vehiculos = $this->model->getVehiculos();
+        $this->view->vehiculos = $vehiculos;
+        $empleados = $this->model->getChoferes();
+        $this->view->empleados = $empleados;
+        $this->view->render('supervisor/agregarProforma');
     }
 
     function actualizarProforma(){

@@ -1,97 +1,20 @@
 <?php require 'views/header.php';?>
-<?php require 'views/nav.php';?>
-    
-<h1>supervisor</h1>
-<a href="<?php echo constant('URL');?>supervisor/cerrarSesion">cerrar session</a>
+<?php require 'views/navSupervisor.php';?>
 
-<form action="<?php echo constant('URL');?>supervisor/cargarProforma" method="POST">
-    <input type="date" name="fecha" ><br>
-
-    <h2>viaje</h2>
-    <input type="text" name="origen" ><br>
-    <input type="text" name="destino" ><br>
-    <input type="date" name="fecha_carga" ><br>
-    <input type="date" name="ETA" ><br>
-
-    <h2>carga</h2>
-    <input type="text" name="tipo" ><br>
-    <input type="number" name="peso_neto" ><br>
-    <input type="text" name="hazard" ><br>
-    <input type="text" name="reefer" ><br>
-
-    <h2>costeo</h2>
-    <input type="date" name="ETD_e" ><br>
-  
-    <input type="date" name="ETA_e" ><br>
-
-    <input type="number" name="kilometros_e" ><br>
+<table style="margin-top: 100px;" width="100%" class="w3-centered w3-border">
     
-    <input type="number" name="combustible_e" ><br>
-    
-    <input type="number" name="viaticos_e" ><br>
-    
-    <input type="number" name="peajes_pesajes_e" ><br>
-   
-    <input type="number" name="extras_e" ><br>
-    
-    <input type="number" name="hazard_e" ><br>
-    
-    <input type="number" name="reefer_e" ><br>
-    
-    <input type="number" name="fee_e" ><br>
-    
-    
-
-    <h2>chofer</h2>
-    <select name="id_chofer">
-    <?php 
-        include_once 'models/empleado.php';
-            foreach($this->empleados as $row) {
-                $empleado = new Empleado();
-                $empleado = $row;
-            
-    ?>
-        <option value="<?php echo $empleado->id; ?>"><?php echo $empleado->nombre ." ". $empleado->apellido; ?></option>
-        <?php } ?>
-    </select>
-    
-    <br>
-
-    <h2>vehiculos</h2>
-    <select name="id_vehiculo">
-    <?php 
-        include_once 'models/vehiculo.php';
-            foreach($this->vehiculos as $row) {
-                $vehiculo = new Vehiculo();
-                $vehiculo = $row;
-            
-    ?>
-        <option value="<?php echo $vehiculo->id; ?>"><?php echo $vehiculo->marca ." ". $vehiculo->modelo; ?></option>
-        <?php } ?>
-    </select>
-    
-    <br>
-
-
-    <input type="submit" value="registrar"><br><br>
-    <div><?php echo $this->message;?></div>
-</form>
-
-<h1>consulta</h1>
-
-<table width="100%">
-    <thead>
-        <tr>
-            <th>numero</th>
-            <th>fecha</th>
-            <th>id_viaje</th>
-            <th>id_carga</th>
-            <th>id_costeo_estimado</th>
-            <th>id_chofer</th>
-            <th>id_vehiculo</th>
+        <tr class="w3-yellow">
+            <th>Numero</th>
+            <th>Fecha</th>
+            <th>Id viaje</th>
+            <th>Id carga</th>
+            <th>Id costeo estimado</th>
+            <th>Id chofer</th>
+            <th>Id vehiculo</th>
+            <th>Editar</th>
+            <th>Eliminar</th>
         </tr>
-    </thead>
-    <tbody>
+   
         <?php 
         include_once 'models/proforma.php';
             foreach($this->proforma as $row) {
@@ -107,11 +30,12 @@
             <td><?php echo $proforma->id_costeo_estimado; ?></td>
             <td><?php echo $proforma->id_chofer; ?></td>
             <td><?php echo $proforma->id_vehiculo; ?></td>
-            <td><a href="<?php echo constant('URL') . 'supervisor/verProforma/' . $proforma->numero;?>">Editar</a></td>
-            <td><a href="<?php echo constant('URL') . 'supervisor/eliminarProforma/' . $proforma->numero;?>">Eliminar</a></td>
+            <td><a class="w3-btn w3-blue w3-round-xxlarge" href="<?php echo constant('URL') . 'supervisor/verProforma/' . $proforma->numero;?>">Editar</a></td>
+            <td><a class="w3-btn w3-red w3-round-xxlarge" href="<?php echo constant('URL') . 'supervisor/eliminarProforma/' . $proforma->numero;?>">Eliminar</a></td>
         </tr>
         <?php } ?>
-    </tbody>
 </table>
+
+<a style="margin-top: 20px" class="w3-button w3-block w3-green w3-hover-teal" href="<?php echo constant('URL') . 'supervisor/agregarProforma';?>">Crear una nueva proforma</a>
 
 <?php require 'views/footer.php';?>

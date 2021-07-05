@@ -1,5 +1,5 @@
 <?php require 'views/header.php';?>
-<?php require 'views/nav.php';?>
+<?php require 'views/navEncargado.php';?>
     
 <h1>detalle</h1>
 
