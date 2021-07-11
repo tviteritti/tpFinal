@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -16,6 +16,6 @@
     <title>Sidebar menu responsive</title>
 </head>
 
-<body id="body-pd">
+<body id="body-pd" class="body-pd">
     
 

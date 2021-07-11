@@ -213,7 +213,7 @@ class choferModel extends Model{
                 $item->patente           = $row['patente'];
                 $item->nro_chasis        = $row['nro_chasis'];
                 $item->nro_motor         = $row['nro_motor'];
-                $item->año_fabricacion   = $row['año_fabricacion'];
+                $item->anio_fabricacion   = $row['anio_fabricacion'];
                 $item->service           = $row['service'];
                 $item->kilometraje       = $row['kilometraje'];
                 $item->max_combustible   = $row['max_combustible'];

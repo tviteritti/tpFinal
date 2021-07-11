@@ -91,6 +91,36 @@ class Administrador extends Controller{
         header('location:http://localhost/tpFinal/administrador');      //cambiar por la URL que tengan
             exit();
     }
+
+    function verPosicion(){
+        
+        $empleados = $this->model->getChoferesEnViaje();
+
+       
+        
+        $this->view->empleados = $empleados;
+        $this->view->mensaje = "";
+        $this->view->render('administrador/mostrarPosision');
+    }
+
+     function generarQr($param = null){
+        $id_chofer = $param[0];
+        $datos = $this->model->getdatosByChofer($id_chofer);
+       
+        $latitud = $datos[0];
+        $longitud = $datos[1];
+
+        include_once("phpqrcode/qrlib.php");
+
+        
+        QRcode::png("https://maps.google.com/maps?q=".$latitud.",".$longitud);
+        
+        
+        
+        $this->view->render('administrador/generarQr');
+    }
+
+
 }
 
 ?>

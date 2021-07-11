@@ -68,6 +68,48 @@ class MainModel extends Model{
         }
         
     }
+
+        public function verificarHash($email,$hash){
+
+        $item = new Empleado();
+
+        $query = $this->db->connect()->prepare("SELECT * FROM empleado where email = :email and hash = :hash");
+        try{
+            $query->execute(['email' => $email, 'hash' => $hash]);
+
+            while($row = $query->fetch()){
+                $item->id           = $row['id'];
+                $item->dni          = $row['dni'];
+                $item->nombre       = $row['nombre'];
+                $item->apellido     = $row['apellido'];
+                $item->fecha_nac    = $row['fecha_nac'];
+                $item->usuario      = $row['usuario'];
+                $item->password     = $row['password'];
+                $item->email        = $row['email'];
+                $item->rol          = $row['rol'];
+            }
+
+            return $item;
+        }catch(PDOException $e){
+            return [];
+        }
+
+    }
+
+    public function activarEmpleado($id){
+
+        $query = $this->db->connect()->prepare("UPDATE empleado SET activo = 1, hash = 0 WHERE id = :id");
+        try{
+            $query->execute(['id' => $id]);
+
+          
+
+            return true;
+        }catch(PDOException $e){
+            return false;
+        }
+
+    }
 }
 
 ?>

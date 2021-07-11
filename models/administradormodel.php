@@ -99,6 +99,65 @@ class AdministradorModel extends Model{
             return false;
         }
     }
+
+    public function getChoferesEnViaje(){
+        
+        try{
+            $items = [];
+
+            $query = $this->db->connect()->query('SELECT * FROM proforma LEFT JOIN empleado ON proforma.id_chofer=empleado.id where proforma.estado="en curso" GROUP BY proforma.id_chofer');
+            
+
+            while($row = $query->fetch()){
+                $item = new Empleado();
+
+                $item->id        = $row['id'];
+                $item->dni       = $row['dni'];
+                $item->nombre    = $row['nombre'];
+                $item->apellido  = $row['apellido'];
+                $item->fecha_nac = $row['fecha_nac'];
+                $item->usuario   = $row['usuario'];
+                $item->password  = $row['password'];
+                $item->email     = $row['email'];
+                $item->rol       = $row['rol'];
+
+                array_push($items, $item);
+            }
+            
+            return $items;
+        }catch(PDOException $e){
+           
+            
+            return [];
+        }
+        
+    }
+
+     public function getdatosByChofer($id_chofer){
+       try{
+             $items = [];
+
+            $query = $this->db->connect()->prepare('SELECT * FROM datosviaje where id_chofer= :id_chofer and estado = 1');
+
+            $query->execute(['id_chofer' => $id_chofer]);
+
+            while($row = $query->fetch()){
+
+                $latitud              = $row['latitud'];
+                $longitud            = $row['longitud'];
+            }
+            
+            $items[0] = $latitud;
+            $items[1] = $longitud;
+            
+            return $items;
+        }catch(PDOException $e){
+          
+            
+            return [];
+        }
+    }
+
 }
 
 ?>

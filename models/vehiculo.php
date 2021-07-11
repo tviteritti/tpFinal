@@ -8,7 +8,7 @@ class Vehiculo{
     public $patente;
     public $nro_chasis;
     public $nro_motor;
-    public $año_fabricacion;
+    public $anio_fabricacion;
     public $service;
     public $kilometraje;
     public $max_combustible;

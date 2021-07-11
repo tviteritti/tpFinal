@@ -34,18 +34,16 @@ class Pagina2 extends Controller{
         $mail = new PHPMailer(true);
 
         try {
+            $mail->isSMTP();
+            $mail->SMTPDebug = 0;
+            $mail->Host       = 'smtp.live.com';   
+            $mail->Port       = 587;
+            $mail->SMTPAuth   = "login";
+            $mail->SMTPSecure = 'tls';
+            $mail->Username   = 'tviteritti@gmail.com';
+            $mail->Password   = '';
             
-            //Server settings
-            $mail->SMTPDebug = 0;                      //Enable verbose debug output
-            $mail->isSMTP();                                            //Send using SMTP
-            $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-            $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-            $mail->Username   = 'tviteritti@gmail.com';                     //SMTP username
-            $mail->Password   = '';                               //SMTP password
-            $mail->SMTPSecure = 'TLS';            //Enable implicit TLS encryption
-            $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
-            //Recipients
             $mail->setFrom('tviteritti@gmail.com', 'tomas');
             $mail->addAddress($email);     //Add a recipient
 
@@ -73,11 +71,13 @@ class Pagina2 extends Controller{
             echo 'correctamente';
         } catch (Exception $e) {
             echo "Error: {$mail->ErrorInfo}";
-        }
+        }*/
 
        if($this->model->insert(['dni' => $dni, 'nombre' => $nombre,'apellido' => $apellido, 'fecha_nac' => $fecha_nac, 'usuario' => $usuario, 'password' => $password, 'email' => $email, 'hash' => $hash])){
             $mensaje = "registro exitoso";
+            echo "asdzxc";
        }else{
+           echo "asd";
             $mensaje = "ya existe";
        }
 

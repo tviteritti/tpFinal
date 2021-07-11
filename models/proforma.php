@@ -52,6 +52,26 @@ class Proforma{
     public $longitud;
     public $combustible_comprado;
     public $estado;
+
+    public $marca;
+    public $modelo;
+    public $patente;
+    public $nro_chasis;
+    public $nro_motor;
+    public $anio_fabricacion;
+    public $service;
+    public $kilometraje;
+    public $max_combustible;
+
+    public $dni;
+    public $nombre;
+    public $apellido;
+    public $fecha_nac;
+    public $usuario;
+    public $password;
+    public $email;
+    public $rol;
+   
 }
 
 ?>

@@ -213,9 +213,10 @@ class SupervisorModel extends Model{
                 $item->patente          = $row['patente'];
                 $item->nro_chasis       = $row['nro_chasis'];
                 $item->nro_motor        = $row['nro_motor'];
-                $item->año_fabricacion  = $row['año_fabricacion'];
+                $item->anio_fabricacion  = $row['anio_fabricacion'];
                 $item->service          = $row['service'];
                 $item->kilometraje      = $row['kilometraje'];
+                $item->max_combustible      = $row['max_combustible'];
 
                 array_push($items, $item);
             }
@@ -329,6 +330,221 @@ class SupervisorModel extends Model{
                 $item->peso_neto       = $row['peso_neto'];
                 $item->hazard     = $row['hazard'];
                 $item->reefer          = $row['reefer'];
+            }
+
+
+            return $item;
+        }catch(PDOException $e){
+            return [];
+        }
+
+    }
+
+        public function getProformaCompletaById($numero){
+
+        $item = new Proforma();
+
+        $query = $this->db->connect()->prepare("SELECT * FROM proforma where numero = :numero");
+        try{
+            $query->execute(['numero' => $numero]);
+
+            while($row = $query->fetch()){
+                $item->numero                = $row['numero'];
+                $item->fecha                 = $row['fecha'];
+                $item->id_viaje              = $row['id_viaje'];
+                $item->id_carga              = $row['id_carga'];
+                $item->id_costeo_estimado    = $row['id_costeo_estimado'];
+                $item->id_costeo_real       = $row['id_costeo_real'];
+                $item->id_chofer             = $row['id_chofer'];
+                $item->id_vehiculo             = $row['id_vehiculo'];
+            }
+
+            $query = $this->db->connect()->prepare("SELECT * FROM viaje where id = :id_viaje");
+            $query->execute(['id_viaje' => $item->id_viaje]);
+
+            while($row = $query->fetch()){
+                $item->origen          = $row['origen'];
+                $item->destino       = $row['destino'];
+                $item->fecha_carga     = $row['fecha_carga'];
+                $item->ETA          = $row['ETA'];
+            }
+
+            $query = $this->db->connect()->prepare("SELECT * FROM costeoestimado where id = :id_costeo_estimado");
+            $query->execute(['id_costeo_estimado' => $item->id_costeo_estimado]);
+
+            while($row = $query->fetch()){
+                $item->kilometros_e          = $row['kilometros_e'];
+                $item->combustible_e     = $row['combustible_e'];
+                $item->ETD_e          = $row['ETD_e'];
+                $item->ETA_e     = $row['ETA_e'];
+                $item->viaticos_e          = $row['viaticos_e'];
+                $item->peajes_pesajes_e     = $row['peajes_pesajes_e'];
+                $item->extras_e          = $row['extras_e'];
+                $item->hazard_e     = $row['hazard_e'];
+                $item->reefer_e          = $row['reefer_e'];
+                $item->fee_e     = $row['fee_e'];
+                $item->total_e     = ($row['combustible_e']*200) + $row['viaticos_e'] + $row['peajes_pesajes_e'] + $row['extras_e'] + $row['hazard_e'] + $row['reefer_e'] + $row['fee_e'];
+            }
+
+            $query = $this->db->connect()->prepare("SELECT * FROM costeoreal where id = :id_costeo_real");
+            $query->execute(['id_costeo_real' => $item->id_costeo_real]);
+
+            while($row = $query->fetch()){
+                $item->kilometros_r          = $row['kilometros_r'];
+                $item->combustible_r     = $row['combustible_r'];
+                $item->ETD_r          = $row['ETD_r'];
+                $item->ETA_r     = $row['ETA_r'];
+                $item->viaticos_r          = $row['viaticos_r'];
+                $item->peajes_pesajes_r     = $row['peajes_pesajes_r'];
+                $item->extras_r          = $row['extras_r'];
+                $item->hazard_r     = $row['hazard_r'];
+                $item->reefer_r          = $row['reefer_r'];
+                $item->fee_r     = $row['fee_r'];
+                $item->total_r     = ($row['combustible_r']*200) + $row['viaticos_r'] + $row['peajes_pesajes_r'] + $row['extras_r'] + $row['hazard_r'] + $row['reefer_r'] + $row['fee_r'];
+            }
+
+            $query = $this->db->connect()->prepare("SELECT * FROM carga where id = :id_carga");
+            $query->execute(['id_carga' => $item->id_carga]);
+
+            while($row = $query->fetch()){
+                $item->tipo          = $row['tipo'];
+                $item->peso_neto       = $row['peso_neto'];
+                $item->hazard     = $row['hazard'];
+                $item->reefer          = $row['reefer'];
+            }
+
+             
+
+            $query = $this->db->connect()->prepare("SELECT * FROM vehiculo where id = :id_vehiculo");
+            $query->execute(['id_vehiculo' => $item->id_vehiculo]);
+
+            while($row = $query->fetch()){
+                $item->marca            = $row['marca'];
+                $item->modelo           = $row['modelo'];
+                $item->patente          = $row['patente'];
+                $item->nro_chasis       = $row['nro_chasis'];
+                $item->nro_motor        = $row['nro_motor'];
+                $item->anio_fabricacion  = $row['anio_fabricacion'];
+                $item->service          = $row['service'];
+                $item->kilometraje      = $row['kilometraje'];
+                $item->max_combustible      = $row['max_combustible'];
+            }
+
+            $query = $this->db->connect()->prepare("SELECT * FROM empleado where id = :id_chofer");
+            $query->execute(['id_chofer' => $item->id_chofer]);
+
+            while($row = $query->fetch()){
+                $item->dni       = $row['dni'];
+                $item->nombre    = $row['nombre'];
+                $item->apellido  = $row['apellido'];
+                $item->fecha_nac = $row['fecha_nac'];
+                $item->usuario   = $row['usuario'];
+                $item->password  = $row['password'];
+                $item->email     = $row['email'];
+                $item->rol       = $row['rol'];
+            }
+
+
+            return $item;
+        }catch(PDOException $e){
+            return [];
+        }
+
+    }
+
+    public function getProformaCompleta(){
+
+        $item = new Proforma();
+
+        $query = $this->db->connect()->query("SELECT * FROM proforma");
+        try{
+            
+
+            while($row = $query->fetch()){
+                $item->numero                = $row['numero'];
+                $item->fecha                 = $row['fecha'];
+                $item->id_viaje              = $row['id_viaje'];
+                $item->id_carga              = $row['id_carga'];
+                $item->id_costeo_estimado    = $row['id_costeo_estimado'];
+                $item->id_costeo_real       = $row['id_costeo_real'];
+                $item->id_chofer             = $row['id_chofer'];
+                $item->id_vehiculo             = $row['id_vehiculo'];
+            }
+
+            $query = $this->db->connect()->query("SELECT * FROM viaje");
+
+            while($row = $query->fetch()){
+                $item->origen          = $row['origen'];
+                $item->destino       = $row['destino'];
+                $item->fecha_carga     = $row['fecha_carga'];
+                $item->ETA          = $row['ETA'];
+            }
+
+            $query = $this->db->connect()->query("SELECT * FROM costeoestimado ");
+
+            while($row = $query->fetch()){
+                $item->kilometros_e          = $row['kilometros_e'];
+                $item->combustible_e     = $row['combustible_e'];
+                $item->ETD_e          = $row['ETD_e'];
+                $item->ETA_e     = $row['ETA_e'];
+                $item->viaticos_e          = $row['viaticos_e'];
+                $item->peajes_pesajes_e     = $row['peajes_pesajes_e'];
+                $item->extras_e          = $row['extras_e'];
+                $item->hazard_e     = $row['hazard_e'];
+                $item->reefer_e          = $row['reefer_e'];
+                $item->fee_e     = $row['fee_e'];
+            }
+
+            $query = $this->db->connect()->query("SELECT * FROM costeoreal");
+
+            while($row = $query->fetch()){
+                $item->kilometros_r          = $row['kilometros_r'];
+                $item->combustible_r     = $row['combustible_r'];
+                $item->ETD_r          = $row['ETD_r'];
+                $item->ETA_r     = $row['ETA_r'];
+                $item->viaticos_r          = $row['viaticos_r'];
+                $item->peajes_pesajes_r     = $row['peajes_pesajes_r'];
+                $item->extras_r          = $row['extras_r'];
+                $item->hazard_r     = $row['hazard_r'];
+                $item->reefer_r          = $row['reefer_r'];
+                $item->fee_r     = $row['fee_r'];
+            }
+
+            $query = $this->db->connect()->query("SELECT * FROM carga");
+
+            while($row = $query->fetch()){
+                $item->tipo          = $row['tipo'];
+                $item->peso_neto       = $row['peso_neto'];
+                $item->hazard     = $row['hazard'];
+                $item->reefer          = $row['reefer'];
+            }
+
+             
+
+            $query = $this->db->connect()->query("SELECT * FROM vehiculo");
+
+            while($row = $query->fetch()){
+                $item->marca            = $row['marca'];
+                $item->modelo           = $row['modelo'];
+                $item->patente          = $row['patente'];
+                $item->nro_chasis       = $row['nro_chasis'];
+                $item->nro_motor        = $row['nro_motor'];
+                $item->anio_fabricacion  = $row['anio_fabricacion'];
+                $item->service          = $row['service'];
+                $item->kilometraje      = $row['kilometraje'];
+            }
+
+            $query = $this->db->connect()->query("SELECT * FROM empleado");
+
+            while($row = $query->fetch()){
+                $item->dni       = $row['dni'];
+                $item->nombre    = $row['nombre'];
+                $item->apellido  = $row['apellido'];
+                $item->fecha_nac = $row['fecha_nac'];
+                $item->usuario   = $row['usuario'];
+                $item->password  = $row['password'];
+                $item->email     = $row['email'];
+                $item->rol       = $row['rol'];
             }
 
 

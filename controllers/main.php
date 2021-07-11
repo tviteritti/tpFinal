@@ -1,5 +1,7 @@
 <?php
 
+include_once'models/empleado.php';
+
 class Main extends Controller{
 
     function __construct(){
@@ -8,7 +10,21 @@ class Main extends Controller{
     }
 
     function render(){
-        $this->view->render('main/index');
+         if( isset($_SESSION["encargado"]) ){
+            header('location:http://localhost/tpFinal/encargado'); 
+            exit();
+         }else if( isset($_SESSION["supervisor"]) ){
+            header('location:http://localhost/tpFinal/supervisor'); 
+            exit();
+         }else if( isset($_SESSION["administrador"]) ){
+            header('location:http://localhost/tpFinal/administrador'); 
+            exit();
+         }else if( isset($_SESSION["chofer"]) ){
+            header('location:http://localhost/tpFinal/chofer'); 
+            exit();
+         }else{
+            $this->view->render('main/index');
+         }
     }
 
     function inicioSesion(){
@@ -73,34 +89,43 @@ class Main extends Controller{
 
        
 
-        require 'phpmailer/Exception.php';
-        require 'phpmailer/PHPMailer.php';
-        require 'phpmailer/SMTP.php';
-
-        $dni = $_POST['dni'];
-        $nombre = $_POST['nombre'];
-        $apellido = $_POST['apellido'];
-        $fecha_nac = $_POST['fecha_nac'];
-        $usuario = $_POST['usuario'];
-        $password = $_POST['password'];
-        $email = $_POST['email'];
-        $hash = md5( rand(0,1000) );
-
-       /* $mail = new PHPMailer(true);
+        include("Mailer/src/PHPMailer.php");
+        include("Mailer/src/SMTP.php");
+        include("Mailer/src/Exception.php");
 
         try {
-            //Server settings
-            $mail->SMTPDebug = 0;                      //Enable verbose debug output
-            $mail->isSMTP();                                            //Send using SMTP
-            $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-            $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-            $mail->Username   = 'tviteritti@gmail.com';                     //SMTP username
-            $mail->Password   = 'fedetomas';                               //SMTP password
-            $mail->SMTPSecure = 'TLS';            //Enable implicit TLS encryption
-            $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
-            //Recipients
-            $mail->setFrom('tviteritti@gmail.com', 'tomas');
+            $dni = $_POST['dni'];
+            $nombre = $_POST['nombre'];
+            $apellido = $_POST['apellido'];
+            $fecha_nac = $_POST['fecha_nac'];
+            $usuario = $_POST['usuario'];
+            $password = $_POST['password'];
+            $email = $_POST['email'];
+            $hash = md5( rand(0,1000) );
+
+            $fromemail = "ejemploPW2@outlook.com";
+            $fromname = "tomas";
+            $host = "smtp.office365.com";
+            $Port = "587";
+            $SMTPAuth = true;
+            $SMTPSecure = "tls";
+            $password = "123456789ASD";
+
+            $mail = new PHPMailer\PHPMailer\PHPMailer();
+
+        
+            $mail->isSMTP();
+            $mail->SMTPDebug = 1;
+            $mail->Host       = $host;   
+            $mail->Port       = $Port;
+            $mail->SMTPAuth   = $SMTPAuth;
+            $mail->SMTPSecure = $SMTPSecure;
+            $mail->Username   = $fromemail;
+            $mail->Password   = $password;
+            
+
+            $mail->setFrom($fromemail, $fromname);
             $mail->addAddress($email);     //Add a recipient
 
          
@@ -115,19 +140,18 @@ class Main extends Controller{
                 
                 ------------------------
                 Username: '.$usuario.'
-                Password: '.$password.'
                 ------------------------
                 
                 Por favor haz clic en este enlace para activar tu cuenta:
-                http://aquivaelnombrededominio.com/php/activar.php?email='.$email.'&hash='.$hash.'
+                location:http://localhost/tpFinal/main/verificarEmail/'.$email.'/'.$hash.'
                 ';
             
 
-            //$mail->send();
+            $mail->send();
             echo 'correctamente';
         } catch (Exception $e) {
             echo "Error: {$mail->ErrorInfo}";
-        }*/
+        }
 
        if($this->model->insert(['dni' => $dni, 'nombre' => $nombre,'apellido' => $apellido, 'fecha_nac' => $fecha_nac, 'usuario' => $usuario, 'password' => $password, 'email' => $email, 'hash' => $hash])){
             $mensaje = "registro exitoso";
@@ -139,6 +163,23 @@ class Main extends Controller{
         header('location:http://localhost/tpFinal/main');      //cambiar por la URL que tengan
         exit();
         
+    }
+
+    function verificarEmail($param = null){
+            $email = $param[0];
+            $hash = $param[1];
+            $mensaje= "";
+            $empleado = new Empleado();
+            $empleado = $this->model->verificarHash($email, $hash);
+
+            if($this->model->activarEmpleado($empleado->id)){
+              $mensaje = "registro exitoso";
+            }else{
+            $mensaje = "ya existe";
+            }
+         
+         header('location:http://localhost/tpFinal/main');      //cambiar por la URL que tengan
+        exit();
     }
 
 }

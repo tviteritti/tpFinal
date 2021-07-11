@@ -13,6 +13,7 @@
             <th>Id vehiculo</th>
             <th>Editar</th>
             <th>Eliminar</th>
+            <th>Ver pdf</th>
         </tr>
    
         <?php 
@@ -32,6 +33,7 @@
             <td><?php echo $proforma->id_vehiculo; ?></td>
             <td><a class="w3-btn w3-blue w3-round-xxlarge" href="<?php echo constant('URL') . 'supervisor/verProforma/' . $proforma->numero;?>">Editar</a></td>
             <td><a class="w3-btn w3-red w3-round-xxlarge" href="<?php echo constant('URL') . 'supervisor/eliminarProforma/' . $proforma->numero;?>">Eliminar</a></td>
+            <td><a class="w3-btn w3-yellow w3-round-xxlarge" href="<?php echo constant('URL') . 'supervisor/verPdf/'. $proforma->numero;?>">Ver pdf</a></td>
         </tr>
         <?php } ?>
 </table>

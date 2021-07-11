@@ -313,6 +313,38 @@ class Supervisor extends Controller{
         $this->render();
     }
 
+       function verPdf($param = null){
+        $numero = $param[0];
+
+        $proforma = $this->model->getProformaCompletaById($numero);
+
+        $proforma->total_e = ($proforma->combustible_e * 200) + $proforma->viaticos_e + $proforma->extras_e + $proforma->hazard_e + $proforma->peajes_pesajes_e + $proforma->reefer_e + $proforma->fee_e;
+
+        $proforma->total_r = ($proforma->combustible_r * 200) + $proforma->viaticos_r + $proforma->extras_r + $proforma->hazard_r + $proforma->peajes_pesajes_r + $proforma->reefer_r + $proforma->fee_r;
+
+        $this->view->proforma = $proforma;
+        $this->view->render('supervisor/pdfProforma');
+
+    }
+
+    function verEstadisticas(){
+        $proformasN= $this->model->getProforma();
+       $items = [];
+       foreach ($proformasN as $numero) {
+            $proformas = $this->model->getProformaCompletaById($numero->numero);
+            array_push($items, $proformas);
+       }
+        
+
+
+        $vehiculos = $this->model->getVehiculos();
+        $this->view->vehiculos = $vehiculos;
+        $this->view->items = $items;
+
+        $this->view->render('supervisor/estadisticas');
+
+    }
+
 }
 
 ?>

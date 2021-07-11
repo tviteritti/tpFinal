@@ -1,4 +1,4 @@
- <header class="header" id="header">
+ <header class="header body-pd" id="header">
         <div class="header__toggle">
             <i class='bx bx-menu' id="header-toggle"></i>
         </div>
@@ -8,7 +8,7 @@
         </div>
     </header>
 
-    <div class="l-navbar" id="nav-bar">
+    <div class="l-navbar show" id="nav-bar">
         <nav class="nav">
             <div>
                 <a href="#" class="nav__logo">
