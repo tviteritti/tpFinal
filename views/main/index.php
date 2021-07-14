@@ -52,12 +52,12 @@
                 <form action="<?php echo constant('URL');?>main/inicioSesion" method="post">
                     <p>
                         <label for="usuario" class="w3-left">Usuario</label>
-                        <input type="text" name="user" class="w3-input">
+                        <input type="text" name="user" class="w3-input" require>
                     </p>
 
                     <p>
                         <label for="password" class="w3-left">Contraseña</label>
-                        <input type="password" name="password" class="w3-input">
+                        <input type="password" name="password" class="w3-input" require>
                     </p>
 
                   

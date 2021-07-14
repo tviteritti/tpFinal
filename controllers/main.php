@@ -100,7 +100,7 @@ class Main extends Controller{
             $apellido = $_POST['apellido'];
             $fecha_nac = $_POST['fecha_nac'];
             $usuario = $_POST['usuario'];
-            $password = $_POST['password'];
+            $passwordd = $_POST['password'];
             $email = $_POST['email'];
             $hash = md5( rand(0,1000) );
 
@@ -153,7 +153,7 @@ class Main extends Controller{
             echo "Error: {$mail->ErrorInfo}";
         }
 
-       if($this->model->insert(['dni' => $dni, 'nombre' => $nombre,'apellido' => $apellido, 'fecha_nac' => $fecha_nac, 'usuario' => $usuario, 'password' => $password, 'email' => $email, 'hash' => $hash])){
+       if($this->model->insert(['dni' => $dni, 'nombre' => $nombre,'apellido' => $apellido, 'fecha_nac' => $fecha_nac, 'usuario' => $usuario, 'password' => $passwordd, 'email' => $email, 'hash' => $hash])){
             $mensaje = "registro exitoso";
        }else{
             $mensaje = "ya existe";

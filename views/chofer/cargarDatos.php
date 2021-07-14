@@ -12,9 +12,9 @@
             </div>
 
             <label>Kilometro:</label>
-            <input class="w3-input" type="text" name="kilometros" placeholder="kilometro"><br>
+            <input class="w3-input" type="text" name="kilometros" placeholder="kilometro" require><br>
             <label>Combustible:</label>
-            <input class="w3-input" type="text" name="combustible" placeholder="combustible"><br>
+            <input class="w3-input" type="text" name="combustible" placeholder="combustible" require><br>
             <label>Combustible Comprado:</label>
             <input class="w3-input" type="text" name="combustible_comprado" placeholder="combustible_comprado"><br>   
             <label>Viaticos:</label>

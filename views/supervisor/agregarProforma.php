@@ -12,20 +12,20 @@
             </div>
 
             <label>Fecha:</label>
-            <input class="w3-input" type="date" name="fecha" ><br>
+            <input class="w3-input" type="date" name="fecha" require><br>
 
             <div style="margin-top: 30px; margin-bottom: 10px;" class="w3-container w3-orange  w3-border w3-border-orange w3-round-large" >
                 <h2>Viaje</h2>
             </div>
 
             <label>Origen:</label>
-            <input class="w3-input" type="text" name="origen" >
+            <input class="w3-input" type="text" name="origen" require>
             <label>Destino:</label>
-            <input class="w3-input" type="text" name="destino" >
+            <input class="w3-input" type="text" name="destino" require>
             <label>Fecha de Carga:</label>
-            <input class="w3-input" type="date" name="fecha_carga">
+            <input class="w3-input" type="date" name="fecha_carga" require>
             <label>ETA:</label>
-            <input class="w3-input" type="date" name="ETA" >
+            <input class="w3-input" type="date" name="ETA" require>
         
 
             <div style="margin-top: 30px; margin-bottom: 10px;" class="w3-container w3-orange  w3-border w3-border-orange w3-round-large" >
@@ -33,38 +33,38 @@
             </div>
 
            <label>Peso Neto:</label>
-            <input class="w3-input" type="number" name="peso_neto" ><br>
+            <input class="w3-input" type="number" name="peso_neto" require><br>
             <label>Tipo:</label>
-            <input class="w3-input" type="text" name="tipo"><br>                             
+            <input class="w3-input" type="text" name="tipo" require><br>                             
             <label>Reefer:</label>
-            <input class="w3-input" type="text" name="reefer"><br> 
+            <input class="w3-input" type="text" name="reefer" require><br> 
             <label>Hazard:</label>
-            <input class="w3-input" type="text" name="hazard"><br>
+            <input class="w3-input" type="text" name="hazard" require><br>
 
             <div style="margin-top: 30px; margin-bottom: 10px;" class="w3-container w3-orange  w3-border w3-border-orange w3-round-large" >
                 <h2>Costeo Estimado</h2>
             </div>
 
             <label>Kilemotros:</label>
-            <input class="w3-input" type="number" name="kilometros_e"><br>           
+            <input class="w3-input" type="number" name="kilometros_e" require><br>           
             <label>combustible:</label>
-            <input class="w3-input" type="number" name="combustible_e" ><br>
+            <input class="w3-input" type="number" name="combustible_e" require><br>
             <label>ETD:</label>
-            <input class="w3-input" type="date" name="ETD_e"><br>
+            <input class="w3-input" type="date" name="ETD_e" require><br>
             <label>ETA:</label>
-            <input class="w3-input" type="date" name="ETA_e"><br>
+            <input class="w3-input" type="date" name="ETA_e" require><br>
             <label>Viaticos:</label>
-            <input class="w3-input" type="number" name="viaticos_e"><br>
+            <input class="w3-input" type="number" name="viaticos_e" require><br>
             <label>Peajes Pasajes:</label>
-            <input class="w3-input" type="number" name="peajes_pesajes_e"><br>
+            <input class="w3-input" type="number" name="peajes_pesajes_e" require><br>
             <label>Extras:</label>
-            <input class="w3-input" type="number" name="extras_e"><br>
+            <input class="w3-input" type="number" name="extras_e" require><br>
             <label>Hazard:</label>
-            <input class="w3-input" type="number" name="hazard_e"><br>
+            <input class="w3-input" type="number" name="hazard_e" require><br>
             <label>Reefer:</label>
-            <input class="w3-input" type="number" name="reefer_e"><br>
+            <input class="w3-input" type="number" name="reefer_e" require><br>
             <label>Fee:</label>
-            <input class="w3-input" type="number" name="fee_e"><br>
+            <input class="w3-input" type="number" name="fee_e" require><br>
 
 
             <div style="margin-top: 30px; margin-bottom: 10px;" class="w3-container w3-orange  w3-border w3-border-orange w3-round-large" >

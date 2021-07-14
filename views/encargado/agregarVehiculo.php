@@ -12,23 +12,23 @@
             </div>
 
             <label>marca:</label>
-            <input class="w3-input" type="text" name="marca" >
+            <input class="w3-input" type="text" name="marca" require>
             <label>modelo:</label>
-            <input class="w3-input" type="text" name="modelo" >
+            <input class="w3-input" type="text" name="modelo" require>
             <label>patente:</label>
-            <input class="w3-input" type="text" name="patente">
+            <input class="w3-input" type="text" name="patente" require>
             <label>nro_chasis:</label>
-            <input class="w3-input" type="number" name="nro_chasis" >
+            <input class="w3-input" type="number" name="nro_chasis" require>
             <label>nro_motor:</label>
-            <input class="w3-input" type="number" name="nro_motor" >
+            <input class="w3-input" type="number" name="nro_motor" require>
             <label>anio_fabricacion:</label>
-            <input class="w3-input" type="number" name="anio_fabricacion" >
+            <input class="w3-input" type="number" name="anio_fabricacion" require>
             <label>service:</label>
-            <input class="w3-input" type="date" name="service">
+            <input class="w3-input" type="date" name="service" >
             <label>kilometraje:</label>
-            <input class="w3-input" type="number" name="kilometraje" >
+            <input class="w3-input" type="number" name="kilometraje"require >
             <label>max_combustible:</label>
-            <input class="w3-input" type="number" name="max_combustible" >
+            <input class="w3-input" type="number" name="max_combustible" require>
                   
 
             <input style="margin-top: 90px" class="w3-button w3-block w3-green w3-hover-teal" type="submit" value="Cargar Proforma"><br><br>
